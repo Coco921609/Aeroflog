@@ -7,7 +7,6 @@ import 'favoris_page.dart';
 import 'turbulence_page.dart' as turb;
 import 'bloc_notes_page.dart';
 import 'modeles_avion_page.dart';
-import 'ai_chat_page.dart'; // <--- AJOUT IA
 
 class DashboardPage extends StatefulWidget {
   final Function(int) onNavigate;
@@ -226,6 +225,7 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
             ),
             const SizedBox(height: 40),
 
+            // Ligne 1
             Row(
               children: [
                 Expanded(child: _buildEngineCard(1, Icons.flight_takeoff_rounded, "VOLS", "Historique complet incluant escales.", colorIdx)),
@@ -234,6 +234,7 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
             ),
             const SizedBox(height: 35),
 
+            // Ligne 2
             Row(
               children: [
                 Expanded(child: _buildEngineCard(3, Icons.verified_rounded, "BADGES", "Niveaux de fidélité débloqués.", colorIdx)),
@@ -251,20 +252,12 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
             ),
             const SizedBox(height: 35),
 
+            // Ligne 3 harmonisée
             Row(
               children: [
-                Expanded(child: _buildModelesCard(colorIdx)),
-                Expanded(child: GestureDetector(
-                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const turb.TurbulencePage())),
-                  child: Column(children: [
-                    SizedBox(height: 60, child: Center(child: _buildWeatherWidget())),
-                    const SizedBox(height: 8),
-                    const Text("METEO", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: Colors.white)),
-                    const Text("Zones de turbulences et ciel.", textAlign: TextAlign.center, style: TextStyle(fontSize: 7.5, color: Colors.white38, fontWeight: FontWeight.bold))
-                  ]),
-                )),
-                // --- AJOUT BOUTON IA ICI POUR ÉQUILIBRER LA LIGNE ---
-                Expanded(child: _buildEngineCard(8, Icons.auto_awesome, "IA CHAT", "Votre assistant intelligent.", colorIdx)),
+                Expanded(child: _buildEngineCard(5, Icons.airplanemode_active_rounded, "MODÈLES", "Détails de votre flotte.", colorIdx)),
+                Expanded(child: _buildEngineCard(6, Icons.wb_cloudy_rounded, "METEO", "Zones de turbulences et ciel.", colorIdx)),
+                const Expanded(child: SizedBox()),
               ],
             ),
 
@@ -365,8 +358,10 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
     Color dynamicColor = _allPalettes[colorIdx][0];
     return GestureDetector(
         onTap: () {
-          if (index == 8) {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const AIChatPage()));
+          if (index == 5) {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const ModelesAvionPage()));
+          } else if (index == 6) {
+            Navigator.push(context, MaterialPageRoute(builder: (_) => const turb.TurbulencePage()));
           } else {
             widget.onNavigate(index);
           }
@@ -386,25 +381,6 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
     );
   }
 
-  Widget _buildModelesCard(int colorIdx) {
-    Color dynamicColor = _allPalettes[colorIdx][0];
-    return GestureDetector(
-      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const ModelesAvionPage())),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(height: 60, child: Center(child: Stack(alignment: Alignment.center, children: [
-            Icon(Icons.airplanemode_active_rounded, color: dynamicColor, size: 28),
-            AnimatedBuilder(animation: _rotationController, builder: (context, child) => Transform.rotate(angle: -_rotationController.value * 2 * math.pi, child: Icon(Icons.settings_outlined, color: dynamicColor.withOpacity(0.2), size: 45))),
-          ]))),
-          const SizedBox(height: 8),
-          const Text("MODÈLES", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: Colors.white)),
-          const Text("Détails de votre flotte.", textAlign: TextAlign.center, style: TextStyle(fontSize: 7.5, color: Colors.white38, fontWeight: FontWeight.bold)),
-        ],
-      ),
-    );
-  }
-
   Widget _buildNotebookWidget() {
     return AnimatedBuilder(
         animation: _writingController,
@@ -415,22 +391,6 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
           ]);
         }
     );
-  }
-
-  Widget _buildWeatherWidget() {
-    return AnimatedBuilder(animation: _weatherAnimController, builder: (context, child) {
-      double t = _weatherAnimController.value;
-      double bounce = math.sin(t * math.pi);
-      switch (_weatherStateIndex) {
-        case 0: return Icon(Icons.wb_sunny_rounded, color: Colors.orangeAccent, size: 28 + (bounce * 4));
-        case 1: return Icon(Icons.cloud_rounded, color: Colors.white70, size: 28);
-        case 2: return Column(mainAxisSize: MainAxisSize.min, children: [const Icon(Icons.cloud_rounded, color: Colors.grey, size: 24), Transform.translate(offset: Offset(0, bounce * 5), child: const Icon(Icons.water_drop, color: Colors.blueAccent, size: 8))]);
-        case 3: return Stack(alignment: Alignment.center, children: [const Icon(Icons.cloud_rounded, color: Color(0xFF455A64), size: 28), if (bounce > 0.5) const Icon(Icons.bolt_rounded, color: Colors.yellowAccent, size: 18)]);
-        case 4: return Column(mainAxisSize: MainAxisSize.min, children: [const Icon(Icons.cloud_rounded, color: Colors.white, size: 24), Transform.rotate(angle: t * 2, child: const Icon(Icons.ac_unit_rounded, color: Colors.lightBlueAccent, size: 8))]);
-        case 5: return Opacity(opacity: 0.5 + (bounce * 0.3), child: const Icon(Icons.foggy, color: Colors.white54, size: 28));
-        default: return const Icon(Icons.wb_cloudy_rounded, color: Colors.white);
-      }
-    });
   }
 
   Widget _buildYearlyCard(String title, String desc, List<String> items, IconData icon, Color accentColor) {
