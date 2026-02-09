@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <base href="$FLUTTER_BASE_HREF">
+
+    <meta charset="UTF-8">
+    <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+    <meta name="description" content="Gérez, analysez et transformez vos voyages en avion. Suivez vos statistiques, débloquez des trophées et découvrez votre ADN de voyageur, le tout 100% hors ligne.">
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Aeroflog">
+    <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+    <link rel="icon" type="image/png" href="favicon.png"/>
+
+    <title>Aeroflog</title>
+    <link rel="manifest" href="manifest.json">
+
+    <style>
+        /* Style du loader avant le chargement de Flutter */
+        body {
+          background-color: #121212; /* Fond sombre pour coller à l'ADN Aero */
+          margin: 0;
+          width: 100vw;
+          height: 100vh;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          color: #D4AF37; /* Or/Jaune pour le rappel trophées */
+          font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        .loader {
+          width: 60px;
+          height: 60px;
+          border: 3px solid rgba(212, 175, 55, 0.2);
+          border-radius: 50%;
+          border-top-color: #D4AF37;
+          animation: spin 1s ease-in-out infinite;
+          margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+          font-size: 1.1rem;
+          letter-spacing: 2px;
+          font-weight: 300;
+          text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+<div id="loading-indicator">
+    <div class="loader"></div>
+    <div class="loading-text">Chargement Aeroflog...</div>
+</div>
+
+<script src="flutter_bootstrap.js" async></script>
+
+<script>
+    // Ce script permet de supprimer le loader une fois que Flutter est prêt
+    window.addEventListener('load', function(ev) {
+      // Flutter bootstrap s'occupe de l'injection, le loader sera masqué par le canvas
+    });
+</script>
+</body>
+</html>

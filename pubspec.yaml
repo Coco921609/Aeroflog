@@ -1,0 +1,60 @@
+name: aeroflog
+description: "Application d'enregistrement des anciens vols"
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # --- LOCALISATION (Calendriers, dates) ---
+  flutter_localizations:
+    sdk: flutter
+  # Mise à jour forcée pour correspondre au SDK Flutter
+  intl: ^0.20.2
+
+  # --- SÉCURITÉ ET BIOMÉTRIQUE ---
+  local_auth: ^2.2.0
+
+  # --- WIDGET D'ACCUEIL ---
+  home_widget: ^0.4.0
+
+  # --- UI ET UTILITAIRES ---
+  provider: ^6.1.2
+  country_picker: ^2.0.26
+  visibility_detector: ^0.4.0+2
+  cupertino_icons: ^1.0.8
+
+  # --- DONNÉES ET MÉDIAS ---
+  image_picker: ^1.1.2
+  http: ^1.2.1
+  shared_preferences: ^2.2.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  flutter_launcher_icons: ^0.14.1
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/avion.png"
+  web:
+    generate: true
+    image_path: "assets/avion.png"
+    background_color: "#161616"
+    theme_color: "#D4AF37"
+  windows:
+    generate: true
+    image_path: "assets/avion.png"
+    icon_size: 256
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
